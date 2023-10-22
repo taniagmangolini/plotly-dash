@@ -38,21 +38,25 @@ app.layout = html.Div([
                  value='Spain'),
     html.Br(),
     radio_metrics_options,
-    dcc.Graph(id='line-chart', figure=line_figure)
+    dcc.Graph(id='line-chart', figure=line_figure),
+    html.Div(id='average')
 ])
 
 
 @app.callback(
     Output(component_id='line-chart', component_property='figure'),
+    Output(component_id='average', component_property='children'),
     Input(component_id='country-dropdown', component_property='value'),
     Input(radio_metrics_options, component_property='value')
 )
 def update_line_chart(selected_country, metric_option):
     filtered_happiness_df = happiness_df[happiness_df['Country or region'] == selected_country]
-    return px.line(filtered_happiness_df,
-                   x='Year',
-                   y=metric_option,
-                   title=f'{metric_option} in {selected_country}')
+    average_output = f'The average {metric_option} for this country is {filtered_happiness_df[metric_option].mean()}'
+    line_chart_output =  px.line(filtered_happiness_df,
+                                 x='Year',
+                                 y=metric_option,
+                                 title=f'{metric_option} in {selected_country}')
+    return line_chart_output, average_output
 
 
 if __name__ == '__main__':
