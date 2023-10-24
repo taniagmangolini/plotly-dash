@@ -26,7 +26,7 @@ radio_metrics_options = dcc.RadioItems(
 #               value=['Spain']),
 
 app.layout = html.Div([
-    html.H1('World Happiness Dashboard'),
+    html.H1('World Happiness Dashboard', style={'textAlign': 'center', 'color': 'blue'}),
     html.P([
         'This dashboard shows the happiness score.',
         html.Br(),
